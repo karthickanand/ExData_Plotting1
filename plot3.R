@@ -1,0 +1,15 @@
+> #plot 3
+eb <- read.table("household_power_consumption.txt",header=TRUE, sep=";", stringsAsFactors = FALSE)
+eb$Date<-as.Date(eb$Date,"%d/%m/%Y")
+eb1<-subset(eb,Date >="2007-02-01" & Date<="2007-02-02")
+eb1$dateTime   <- as.POSIXlt(paste(eb1$Date,eb1$Time, sep=" "))
+eb1$Sub_metering_1<-as.numeric(eb1$Sub_metering_1)
+eb1$Sub_metering_2<-as.numeric(eb1$Sub_metering_2)
+
+png("rplot3.png", width=480, height=480)
+plot(eb1$dateTime,eb1$Sub_metering_1, type="n", ylab="Energy sub metering", xlab="")
+points(eb1$dateTime,eb1$Sub_metering_1, type="l")
+points(eb1$dateTime,eb1$Sub_metering_2,col="Red", type="l")
+points(eb1$dateTime,eb1$Sub_metering_3,col="Blue", type="l")
+legend("topright", legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),col=c("black","red","blue"),lty=1)
+dev.off()
